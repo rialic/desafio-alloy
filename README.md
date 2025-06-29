@@ -11,12 +11,12 @@ Este projeto foi criado utilizando docker, porém, toda a estrutura permanece a 
 
 1. **Na raiz do projeto:**
    ```bash
-   sudo chown -R 1000:1000 .
+   cp .env.example .env
    ```
 
 2. **Criar containers e instalar dependências:**
    ```bash
-   docker-compose up -d && docker-compose run --rm composer install && docker-compose run --rm node yarn
+   docker-compose up -d && docker-compose run --rm composer install && docker-compose run --rm node yarn && docker-compose run --rm artisan key:generate
    ```
 
 3. **Configuração do banco de dados (.env):**
@@ -29,17 +29,21 @@ Este projeto foi criado utilizando docker, porém, toda a estrutura permanece a 
    ```bash
    docker-compose run --rm artisan migrate
    ```
+5. **Altere owner e group do projeto:**
+   ```bash
+   sudo chown -R 1000:1000 .
+   ```
 
-5. **Execute o projeto:**
+6. **Execute o projeto:**
    ```bash
    docker-compose run --rm -p 5173:5173 node yarn dev --host
    ```
-6. **Execute o worker:**
+7. **Execute o worker:**
    ```bash
    docker-compose run --rm artisan queue:work
    ```
 
-7. **Acesse o projeto:**
+8. **Acesse o projeto:**
    ```bash
    http://localhost
    ```
