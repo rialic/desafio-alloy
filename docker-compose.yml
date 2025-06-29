@@ -1,0 +1,70 @@
+networks:
+  app:
+  nginx:
+  db:
+
+services:
+  nginx:
+    build:
+      context: ./.docker/nginx
+      dockerfile: Dockerfile
+    image: nginx
+    container_name: nginx
+    volumes:
+      - ./:/var/www
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - app
+    networks:
+      - nginx
+
+  app:
+    build:
+      args:
+        UID: 1000
+        GROUP: www-data
+      context: ./.docker/php-fpm
+      dockerfile: Dockerfile
+    image: app
+    container_name: app
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    restart: unless-stopped
+    networks:
+      - app
+      - nginx
+      - db
+
+  #CONTAINER SERVICES
+
+  node:
+    image: node:current-alpine3.21
+    container_name: node
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+
+  composer:
+    image: app
+    container_name: composer
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    entrypoint: ["composer"]
+    networks:
+      - app
+
+  artisan:
+    image: app
+    container_name: artisan
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    entrypoint: ["php", "artisan"]
+    networks:
+      - app
+      - db

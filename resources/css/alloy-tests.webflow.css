@@ -369,6 +369,11 @@ ul {
   overflow: auto;
 }
 
+.show-modal {
+  display: flex;
+  opacity: 1;
+}
+
 .content-modal {
   grid-column-gap: 20px;
   grid-row-gap: 20px;
@@ -559,8 +564,8 @@ ul {
 }
 
 .remove-task {
-  opacity: 0;
-  display: none;
+  opacity: 1;
+  display: flex;
   position: absolute;
   inset: 10px 20px auto auto;
 }

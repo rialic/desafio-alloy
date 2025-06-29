@@ -1,3 +1,4 @@
+@import 'tailwindcss';
 @import "./normalize.css";
 @import "./webflow.css";
 @import "./alloy-tests.webflow.css";
